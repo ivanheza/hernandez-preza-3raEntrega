@@ -18,9 +18,14 @@ El proyecto esta programado para trabajar con MongoDB
 
 -  MongoDB (mongoose)
 
-*  Usuario
+*  Usuarios
 *  Productos
-*  Cart
+*  Carts
+
+## REGISTRO Y LOGIN
+
+-  Registro controlado en el backend con MONGODB
+-  El login esta controlado con Passport Local para los inicios de sesión.
 
 ## Variables de Entorno
 
