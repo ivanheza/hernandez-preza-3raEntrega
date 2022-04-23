@@ -12,6 +12,8 @@ code {
    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
-.cardProd {
-   width: 18rem;
+@media (min-width: 1025px) {
+   .h-custom {
+      height: 100vh !important;
+   }
 }

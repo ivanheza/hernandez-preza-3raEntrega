@@ -47,8 +47,9 @@ class ContenedorMongo {
          if (!existe) {
             return false
          }
-         const productos = await this.model.deleteOne({id})
-         //console.log(productos)
+         console.log(existe)
+         await this.model.deleteOne({_id: id})
+
          return "El Producto Fue Borrado con éxito"
       } catch (error) {
          console.log(error)
@@ -68,15 +69,6 @@ class ContenedorMongo {
          runValidators: true,
          useUnified: true,
       })
-      /* productoActual.nombre = nombre ? nombre : productoActual.nombre
-      productoActual.precio = precio ? precio : productoActual.precio
-      productoActual.foto = foto ? foto : productoActual.foto
-      productoActual.descripcion = descripcion ? descripcion : productoActual.descripcion
-      productoActual.codigo = codigo ? codigo : productoActual.codigo
-      productoActual.stock = stock ? stock : productoActual.stock */
-
-      //console.log(productoActual)
-
       return productoActual
    }
    ////

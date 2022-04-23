@@ -39,19 +39,22 @@ const AdminDashboard = ({user}) => {
       </div>
    )
    return (
-      <section>
-         <div className="bg-dark bg-gradient text-light py-5">
-            <div className="row">
-               <div className="col-md-6">
-                  <h1>
-                     <i className="bi bi-house"></i> Admin Dashboard
-                  </h1>
+      <section className="h-100" style={{backgroundColor: "#eee"}}>
+         <div className="container py-5 h-100">
+            <div className="bg-dark bg-gradient text-light py-3">
+               <div className="row">
+                  <div className="col-md-6">
+                     <h5>
+                        <i className="bi bi-house ms-2"></i> Admin Dashboard
+                     </h5>
+                  </div>
                </div>
             </div>
+
+            {showButtons()}
+            {modal === true ? <ModalAdd hide={SetModal} /> : ""}
+            <Productos cart={cart} user={user} />
          </div>
-         {showButtons()}
-         {modal === true ? <ModalAdd hide={SetModal} /> : ""}
-         <Productos cart={cart} user={user} />
       </section>
    )
 }

@@ -22,3 +22,14 @@ export const editProduct = async (id, data) => {
 
    return response
 }
+export const deleteByID = async (id) => {
+   const config = {
+      headers: {
+         "Content-Type": "application/json",
+      },
+   }
+   //console.log(id, data)
+   const response = await axios.delete(`/api/productos/${id}`, config)
+
+   return response
+}

@@ -18,7 +18,7 @@ function App() {
 
    //console.log(user)
    return (
-      <div className="container-xl">
+      <>
          <NavBar />
 
          <Routes>
@@ -31,7 +31,7 @@ function App() {
                <Route path="/admin/dashboard" element={<AdminDashboard user={user} />} />
             </Route>
          </Routes>
-      </div>
+      </>
    )
 }
 

@@ -55,21 +55,15 @@ const editByID = async (req, res) => {
 
 const deleteById = async (req, res) => {
    const {id} = req.params
-   /* 
-   const buscar = await db.readID(id)
-   if (!buscar) {
-      const error = new Error("El Producto No Existe")
-      return res.status(400).json({msg: error.message})
-   }
-   const result = await db.deleteByID(id) */
+
+   console.log(id, "BORRAR")
    const result = await productsDB.deleteByID(id)
-   console.log(result)
+
    if (result == false) {
-      const error = new Error("No se encontro el producto...")
-      return res.status(400).json({msg: error.message})
+      return res.status(400).json({errorMessage: "No se encontro el producto..."})
    }
 
-   res.status(200).json({msg: result})
+   res.status(200).json({successMessage: result})
    //console.log(id)
 }
 

@@ -1,61 +1,97 @@
 import React from "react"
+import {Link} from "react-router-dom"
 
 import {useCartContext} from "../context/cartContext"
 import {useUserContext} from "../context/userContext"
+import "../index.css"
+import CartCard from "../stateless/CartCard"
 
 const Cart = () => {
    const {cart, borrarProducto} = useCartContext()
    const {user} = useUserContext()
-   //console.log(user)
+   console.log(cart)
    let total = cart.productos.reduce((acc, item) => {
       return (acc += item.precio)
    }, 0)
    //console.log(total)
 
    return (
-      <div className="row d-flex justify-content-center align-items-center">
-         <div className="col-md-10 my-3">
-            <h1>
-               CART <strong>{user.role === 1 ? "Administrador" : ""}</strong>
-            </h1>
-            <h2>{user.email}</h2>
-            <p>
-               Teléfono: <strong>{user.Telefono}</strong>
-            </p>
-            <ul className="list-group mb-3">
-               {cart.productos &&
-                  cart.productos.map((p, index) => {
-                     return (
-                        <li
-                           key={index}
-                           className="list-group-product d-flex justify-content-between  shadow-sm m-2"
-                           style={{fontSize: 12}}>
-                           <div className="row align-items-center ">
-                              <p className="col-1 my-0 ">#{index + 1}</p>
-                              <img
-                                 src={p.foto}
-                                 className="col-2 p-0 img-fluid"
-                                 alt={p.name}
-                              />
-                              <p className="col-4 my-0 text-center">{p.nombre}</p>
-                              <small className="col-3 text-center">$ {p.precio}</small>
-                              <span className=" col-1 d-flex justify-content-center">
-                                 <button
-                                    onClick={() => borrarProducto(p._id)}
-                                    className="btn btn-danger btn-sm ">
-                                    X
-                                 </button>
-                              </span>
+      <section className="h-100 h-custom">
+         <div className="container py-5 h-100">
+            <div className="row d-flex justify-content-center align-items-center">
+               <div className="col">
+                  <div className="card">
+                     <div className="card-body p-4">
+                        <div className="row">
+                           <div className="col-lg-7">
+                              <h5>
+                                 <Link to={"/"} className="link-secondary text-body">
+                                    <i className="bi bi-arrow-left-circle me-2"></i>
+                                    Seguir Comprando
+                                 </Link>
+                              </h5>
+                              <hr />
+
+                              <div className="d-flex justify-content-between align-items-center mb-4">
+                                 <div>
+                                    <h5 className="mb-1">
+                                       CART{" "}
+                                       <strong>
+                                          {user.role === 1 ? "Administrador" : ""}
+                                       </strong>
+                                    </h5>
+                                 </div>
+                                 <div className="">
+                                    <p>
+                                       Tienes{" "}
+                                       <span className="badge badge-pill bg-info">
+                                          {cart.productos.length}
+                                       </span>{" "}
+                                       artículos en tu carrito.
+                                    </p>
+                                 </div>
+                              </div>
+                              {cart.productos &&
+                                 cart.productos.map((p, index) => (
+                                    <CartCard
+                                       key={index}
+                                       p={p}
+                                       borrarProducto={borrarProducto}
+                                    />
+                                 ))}
                            </div>
-                        </li>
-                     )
-                  })}
-            </ul>
-            <h1 className="float-end">
-               Total<small>$ {total}</small>
-            </h1>
+                           <div className="col-lg-5 ">
+                              <div className="card bg-secondary bg-gradient align-text-bottom text-white rounded-3  h-100">
+                                 <div className="card-body">
+                                    <div>
+                                       <h1>Details</h1>
+                                       <p>{user.email}</p>
+                                    </div>
+                                    <div className="d-flex justify-content-between">
+                                       <h2 className="mb-0 text-">Total</h2>
+                                    </div>
+                                    <hr className="my-4" />
+                                    <button
+                                       type="button"
+                                       className="btn btn-info w-100 btn-lg">
+                                       <div className="d-flex justify-content-between">
+                                          <span>$ {total}</span>
+                                          <span>
+                                             Checkout{" "}
+                                             <i className="bi bi-arrow-right"></i>
+                                          </span>
+                                       </div>
+                                    </button>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
          </div>
-      </div>
+      </section>
    )
 }
 
