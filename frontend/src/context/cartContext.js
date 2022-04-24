@@ -24,7 +24,7 @@ function CartProvider({children}) {
       newCart(id).then((res) => {
          //console.log(res)
          const carrrito = res.data.carrito
-         console.log(carrrito)
+         //console.log(carrrito)
          setCart(carrrito)
          setLocalStorage("cart", carrrito)
       })

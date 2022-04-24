@@ -12,23 +12,27 @@ const userSchema = new mongoose.Schema(
          type: String,
          required: true,
       },
-      Nombre: {
+      nombre: {
          type: String,
          required: true,
       },
-      Direccion: {
+      direccion: {
          type: String,
          required: true,
       },
-      Edad: {
+      edad: {
          type: Number,
          default: 0,
       },
-      Telefono: {
+      telefono: {
          type: Number,
          default: 0,
       },
-      Foto: {
+      foto: {
+         type: String,
+         required: true,
+      },
+      role: {
          type: Number,
          default: 0,
       },

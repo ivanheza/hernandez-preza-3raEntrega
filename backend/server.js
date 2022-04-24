@@ -2,6 +2,8 @@ import express from "express"
 import dotenv from "dotenv"
 import cors from "cors"
 import path from "path"
+import {dirname} from "path"
+import {fileURLToPath} from "url"
 import session from "express-session"
 import cookieparser from "cookie-parser"
 import passport from "passport"
@@ -16,13 +18,14 @@ import "./config/passport.js"
 
 const app = express()
 dotenv.config()
-
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 ///---- Config Middlewares
 
 app.use(cors())
 app.use(morgan("dev"))
 app.use(express.json())
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({extended: false}))
 app.use(
    session({
       secret: "secretcode",
@@ -37,6 +40,7 @@ app.use(
 app.use(cookieparser("secretcode"))
 app.use(passport.initialize())
 app.use(passport.session())
+app.use("/uploads", express.static(process.cwd() + "/uploads"))
 
 //-----------------------------------------
 connectDB()

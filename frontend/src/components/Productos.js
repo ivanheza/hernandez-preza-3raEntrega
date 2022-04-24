@@ -58,12 +58,12 @@ const Productos = ({user, cart}) => {
                return (
                   <div key={i} className="col-lg-4 col-md-12 mb-4">
                      <div className="card shadow" key={i}>
-                        <div class="d-flex justify-content-between p-3">
-                           <p class="lead mb-0">Stock</p>
+                        <div className="d-flex justify-content-between p-3">
+                           <p className="lead mb-0">Stock</p>
                            <div
-                              class="bg-info rounded-circle d-flex align-items-center justify-content-center shadow-1-strong"
+                              className="bg-info rounded-circle d-flex align-items-center justify-content-center shadow-1-strong"
                               style={{width: 35, height: 35}}>
-                              <p class="text-white mb-0 small">{p.stock}</p>
+                              <p className="text-white mb-0 small">{p.stock}</p>
                            </div>
                         </div>
 

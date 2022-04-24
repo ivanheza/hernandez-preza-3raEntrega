@@ -25,7 +25,7 @@ const Login = ({user}) => {
    const {getCart} = useCartContext()
 
    const [formData, setFormData] = useState({
-      email: "ivan@gmail.com",
+      email: "musik.imix@gmail.com",
       password: "123456",
       laoding: false,
       successMessage: false,

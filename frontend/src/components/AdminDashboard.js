@@ -9,11 +9,13 @@ const AdminDashboard = ({user}) => {
    const {cart} = useCartContext()
    const [modal, SetModal] = useState(false)
    //console.log(modal)
+
    //console.log(cart.productos, "Cart")
    const handleClick = () => {
       //console.log("handle")
       SetModal(true)
    }
+   //http://localhost:9000/admin/uploads/Ivan%20Hernandez.png/
    const showButtons = () => (
       <div className="bg-light my-2">
          <div className="container">
@@ -47,6 +49,14 @@ const AdminDashboard = ({user}) => {
                      <h5>
                         <i className="bi bi-house ms-2"></i> Admin Dashboard
                      </h5>
+                     <div className="ms-2">
+                        <p>Bienvenido {user.nombre}</p>
+                        <img
+                           height={120}
+                           src={`http://localhost:9000/${user.foto}`}
+                           alt=""
+                        />
+                     </div>
                   </div>
                </div>
             </div>

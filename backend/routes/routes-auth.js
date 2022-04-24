@@ -1,21 +1,35 @@
 import express from "express"
 import Users from "../model/userMongo.js"
+import multer from "multer"
 
 import config from "../config/config.js"
 import passport from "passport"
 import isAuthenticated from "../helpers/isAuth.js"
+import {upload} from "../helpers/multer.js"
 
 const router = express.Router()
 
-router.post("/signup", async (req, res) => {
-   const {email, password} = req.body
+router.post("/signup", upload.single("file"), async (req, res) => {
+   //console.log(req.body)
+   //console.log(req.file)
+   const {email, password, nombre, direccion, edad, telefono} = req.body
+   const foto = req.file.path
    const buscado = await Users.getUserByEmail(email)
    if (buscado) {
       console.log("usuario existe")
       res.status(400).json({errorMessage: "Ya existe un usuario con ese correo"})
    } else {
       console.log("Creando Usuario")
-      const newUser = new Users.model({email, password})
+
+      const newUser = new Users.model({
+         email,
+         password,
+         nombre,
+         direccion,
+         edad,
+         telefono,
+         foto,
+      })
       newUser.password = await newUser.encryptPass(password)
       //console.log("user con pass hasheado", newUser)
       await newUser.save()
@@ -32,7 +46,7 @@ router.post("/login", (req, res, next) => {
             if (err) throw err
             let user = req.user
             console.log(user, "USUARIO")
-            res.json({auth: true, user: req.user, msg: "Exitosó"})
+            res.json({auth: true, user: req.user, msg: "Exitosó"}).send()
          })
       } else {
          console.log(info)
