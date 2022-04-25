@@ -10,31 +10,38 @@ import {upload} from "../helpers/multer.js"
 const router = express.Router()
 
 router.post("/signup", upload.single("file"), async (req, res) => {
-   //console.log(req.body)
-   //console.log(req.file)
-   const {email, password, nombre, direccion, edad, telefono} = req.body
-   const foto = req.file.path
-   const buscado = await Users.getUserByEmail(email)
-   if (buscado) {
-      console.log("usuario existe")
-      res.status(400).json({errorMessage: "Ya existe un usuario con ese correo"})
-   } else {
-      console.log("Creando Usuario")
+   try {
+      const {email, password, nombre, direccion, edad, telefono} = req.body
+      const buscado = await Users.getUserByEmail(email)
+      if (buscado) {
+         console.log("usuario existe")
+         res.status(400).json({errorMessage: "Ya existe un usuario con ese correo"})
+      } else {
+         const foto = req.file.path
+         if (!foto) {
+            res.status(400).json({errorMessage: "Debes agregar un archivo"})
+         }
+         console.log("Creando Usuario")
 
-      const newUser = new Users.model({
-         email,
-         password,
-         nombre,
-         direccion,
-         edad,
-         telefono,
-         foto,
+         const newUser = new Users.model({
+            email,
+            password,
+            nombre,
+            direccion,
+            edad,
+            telefono,
+            foto,
+         })
+         newUser.password = await newUser.encryptPass(password)
+         //console.log("user con pass hasheado", newUser)
+         await newUser.save()
+
+         res.json({successMessage: "Registration Succes. Please Login"})
+      }
+   } catch (error) {
+      res.status(400).json({
+         errorMessage: "Algo Salió Mal... Revisa los datos y completa el formulario.",
       })
-      newUser.password = await newUser.encryptPass(password)
-      //console.log("user con pass hasheado", newUser)
-      await newUser.save()
-
-      res.json({successMessage: "Registration Succes. Please Login"})
    }
 })
 

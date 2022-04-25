@@ -7,7 +7,8 @@ export const storage = multer.diskStorage({
    },
    filename: (req, file, cb) => {
       let nombre = req.body.nombre
-      cb(null, nombre.trim() + "." + mime.extension(file.mimetype))
+      nombre = nombre.split(" ").join("")
+      cb(null, nombre + "_img" + Date.now() + "." + mime.extension(file.mimetype))
    },
 })
 

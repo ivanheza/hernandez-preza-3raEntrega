@@ -16,7 +16,7 @@ const Signup = ({user}) => {
    }, [])
 
    /////------
-   const [file, setFile] = useState("")
+   const [file, setFile] = useState(false)
    const [formData, setFormData] = useState({
       email: "musik.imix@gmail.com",
       password: "123456",
@@ -52,8 +52,18 @@ const Signup = ({user}) => {
 
    const handleSubmit = (e) => {
       e.preventDefault()
-
       const {email, password, nombre, direccion, edad, telefono} = formData
+      if (
+         email.length === 0 ||
+         password.length === 0 ||
+         nombre.length === 0 ||
+         direccion.length === 0 ||
+         edad.length === 0 ||
+         telefono.length === 0
+      ) {
+         alert("No puedes dejar un campo vacío")
+         return
+      }
       const data = new FormData()
       data.append("email", email)
       data.append("password", password)
@@ -89,6 +99,13 @@ const Signup = ({user}) => {
                loading: false,
                errorMessage: err.response.data.errorMessage,
             })
+            setTimeout(() => {
+               setFormData({
+                  ...formData,
+                  loading: false,
+                  errorMessage: false,
+               })
+            }, 5000)
          })
    }
 
@@ -113,6 +130,7 @@ const Signup = ({user}) => {
                         value={email}
                         placeholder="Introduce tu email"
                         onChange={handleChange}
+                        required
                      />
                   </div>
                   <div className="form-group mb-2">
@@ -124,6 +142,7 @@ const Signup = ({user}) => {
                         name="password"
                         placeholder="Introduce tu contraseña"
                         onChange={handleChange}
+                        required
                      />
                   </div>
                   <div className="form-group mb-2">
@@ -135,6 +154,7 @@ const Signup = ({user}) => {
                         value={nombre}
                         placeholder="Introduce tu nombre"
                         onChange={handleChange}
+                        required
                      />
                   </div>
                   <div className="form-group mb-2">
@@ -146,6 +166,7 @@ const Signup = ({user}) => {
                         value={direccion}
                         placeholder="Introduce tu direccion"
                         onChange={handleChange}
+                        required
                      />
                   </div>
                   <div className="form-group mb-2">
@@ -153,10 +174,13 @@ const Signup = ({user}) => {
                         className="form-control"
                         id="edad"
                         type="number"
+                        min="18"
+                        max="100"
                         name="edad"
                         value={edad}
                         placeholder="Introduce tu edad"
                         onChange={handleChange}
+                        required
                      />
                   </div>
                   <div className="form-group mb-2">
@@ -168,6 +192,7 @@ const Signup = ({user}) => {
                         value={telefono}
                         placeholder="Introduce tu telefono"
                         onChange={handleChange}
+                        required
                      />
                   </div>
                   <div className="form-group mb-2">
