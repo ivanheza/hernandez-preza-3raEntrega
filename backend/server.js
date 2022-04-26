@@ -54,7 +54,6 @@ app.use("/", (req, res) => {
    res.send("Server Running")
 })
 
-console.log(Date.now())
 app.use("*", (req, res) => {
    // Here user can also design an
    // error page and render it
