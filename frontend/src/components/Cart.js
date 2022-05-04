@@ -1,20 +1,47 @@
-import React from "react"
-import {Link} from "react-router-dom"
-
+import React, {useState} from "react"
+import {Link, useNavigate} from "react-router-dom"
+import {nuevaOrden} from "../api/ordenApi"
 import {useCartContext} from "../context/cartContext"
 import {useUserContext} from "../context/userContext"
+import {errorAlert, successAlert} from "../helpers/alerts"
 import "../index.css"
 import CartCard from "../stateless/CartCard"
 
 const Cart = () => {
-   const {cart, borrarProducto} = useCartContext()
+   const navigate = useNavigate()
+   const [resError, setResError] = useState(false)
+   const [success, setSuccess] = useState(false)
+   const {cart, borrarProducto, borarrCarrito} = useCartContext()
    const {user} = useUserContext()
-   console.log(cart)
+   //console.log(user)
+   //console.log(cart)
    let total = cart.productos.reduce((acc, item) => {
-      return (acc += item.precio)
+      let productos = item.qty * item.precio
+      return (acc += productos)
    }, 0)
    //console.log(total)
 
+   const handleCheckout = async () => {
+      console.log("Boton Orden")
+      alert("¿Quieres continuar con tu compra?")
+      let orden = {
+         cliente: user._id,
+         productos: cart.productos,
+         total,
+      }
+      //console.log(orden)
+      try {
+         let res = await nuevaOrden(orden)
+         //console.log(res)
+         setSuccess(res.data.successMessage)
+         const deleted = await borarrCarrito(cart._id)
+         setTimeout(() => {
+            navigate("/")
+         }, 1000)
+      } catch (error) {
+         setResError("Ocurrio un error al comprar.")
+      }
+   }
    return (
       <section className="h-100 h-custom">
          <div className="container py-5 h-100">
@@ -63,6 +90,8 @@ const Cart = () => {
                            <div className="col-lg-5 ">
                               <div className="card bg-secondary bg-gradient align-text-bottom text-white rounded-3  h-100">
                                  <div className="card-body">
+                                    {resError && errorAlert(resError)}
+                                    {success && successAlert(success)}
                                     <div>
                                        <h1>Details</h1>
                                        <p>{user.email}</p>
@@ -73,12 +102,12 @@ const Cart = () => {
                                     <hr className="my-4" />
                                     <button
                                        type="button"
-                                       className="btn btn-info w-100 btn-lg">
+                                       className="btn btn-info w-100 btn-lg"
+                                       onClick={handleCheckout}>
                                        <div className="d-flex justify-content-between">
                                           <span>$ {total}</span>
                                           <span>
-                                             Checkout{" "}
-                                             <i className="bi bi-arrow-right"></i>
+                                             Comprar <i className="bi bi-arrow-right"></i>
                                           </span>
                                        </div>
                                     </button>

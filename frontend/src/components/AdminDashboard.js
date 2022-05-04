@@ -2,19 +2,21 @@ import React, {useState} from "react"
 import {Link} from "react-router-dom"
 import {useCartContext} from "../context/cartContext"
 import ModalAdd from "./ModalAddProduct"
+import ModalOrders from "./ModalOrders"
 
 import Productos from "./Productos"
 
 const AdminDashboard = ({user}) => {
    const {cart} = useCartContext()
    const [modal, SetModal] = useState(false)
+   const [modalOrders, SetModalOrders] = useState(false)
+
    //console.log(modal)
 
    //console.log(cart.productos, "Cart")
-   const handleClick = () => {
-      //console.log("handle")
-      SetModal(true)
-   }
+   const handleClick = () => SetModal(true)
+   const handleClickB = () => SetModalOrders(true)
+
    //http://localhost:9000/admin/uploads/Ivan%20Hernandez.png/
    const showButtons = () => (
       <div className="bg-light my-2">
@@ -34,7 +36,11 @@ const AdminDashboard = ({user}) => {
                   </button>
                </div>
                <div className="col-md-4 my-1 py-3">
-                  <button className="btn btn-sm btn-outline-info w-100 ">Ordenes</button>
+                  <button
+                     onClick={handleClickB}
+                     className="btn btn-sm btn-outline-info w-100 ">
+                     Ordenes
+                  </button>
                </div>
             </div>
          </div>
@@ -63,6 +69,7 @@ const AdminDashboard = ({user}) => {
 
             {showButtons()}
             {modal === true ? <ModalAdd hide={SetModal} /> : ""}
+            {modalOrders === true ? <ModalOrders hide={SetModalOrders} /> : ""}
             <Productos cart={cart} user={user} />
          </div>
       </section>

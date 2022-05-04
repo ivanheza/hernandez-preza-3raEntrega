@@ -16,12 +16,15 @@ const CartCard = ({p, borrarProducto}) => {
                   </div>
                   <div className="ms-3">
                      <h5>{p.nombre}</h5>
+                     <p>
+                        Qty: <span className="badge bg-secondary">{p.qty} </span>
+                     </p>
                      <p className="small mb-0">{p.descripcion}</p>
                   </div>
                </div>
                <div className="d-flex flex-row align-items-center">
                   <div style={{width: 80}}>
-                     <h5 className="mb-0">$ {p.precio}</h5>
+                     <h5 className="mb-0">$ {p.precio * p.qty}</h5>
                   </div>
                   <button
                      onClick={() => borrarProducto(p._id)}

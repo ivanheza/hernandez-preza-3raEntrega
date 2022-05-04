@@ -1,12 +1,22 @@
-import React from "react"
+import React, {useState} from "react"
 import {Link} from "react-router-dom"
 import {useCartContext} from "../context/cartContext"
+import ModalOrders from "./ModalOrders"
 import Productos from "./Productos"
 
 const UserDashboard = ({user}) => {
    const {cart} = useCartContext()
+   const [modal, SetModal] = useState(false)
+   const handleClick = () => {
+      //console.log("handle")
+      SetModal(true)
+   }
    //console.log(user)
    //console.log(cart.productos, "Cart")
+   let totalenCarro = cart.productos.reduce((acc, item) => {
+      let productos = item.qty
+      return (acc += productos)
+   }, 0)
 
    const showButtons = () => (
       <div className="bg-light my-2">
@@ -15,12 +25,16 @@ const UserDashboard = ({user}) => {
                <div className="col-md-4 my-1 py-3">
                   <Link to={"/cart"} className="btn btn-sm btn-outline-info w-100">
                      <i className="bi bi-cart"></i> Carrito{" "}
-                     <div className="badge bg-primary">{cart.productos.length}</div>
+                     <div className="badge bg-primary">{totalenCarro}</div>
                   </Link>
                </div>
 
                <div className="col-md-4 my-1 py-3">
-                  <button className="btn btn-sm btn-outline-info w-100 ">Ordenes</button>
+                  <button
+                     onClick={handleClick}
+                     className="btn btn-sm btn-outline-info w-100 ">
+                     Ordenes
+                  </button>
                </div>
             </div>
          </div>
@@ -48,6 +62,7 @@ const UserDashboard = ({user}) => {
             </div>
             {showButtons()}
             <Productos cart={cart} user={user} />
+            {modal === true ? <ModalOrders hide={SetModal} /> : ""}
          </div>
       </section>
    )

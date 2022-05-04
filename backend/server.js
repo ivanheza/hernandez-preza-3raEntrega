@@ -12,6 +12,7 @@ import morgan from "morgan"
 import rutasProductos from "./routes/routes-productos.js"
 import rutasCarrito from "./routes/routes-carrito.js"
 import rutasAuth from "./routes/routes-auth.js"
+import rutasOrden from "./routes/routes-orden.js"
 import connectDB from "./config/mongodb.js"
 ///-- Passport
 import "./config/passport.js"
@@ -41,6 +42,7 @@ app.use(cookieparser("secretcode"))
 app.use(passport.initialize())
 app.use(passport.session())
 app.use("/uploads", express.static(process.cwd() + "/uploads"))
+app.use("/backend/public", express.static(process.cwd() + "/backend/public"))
 
 //-----------------------------------------
 connectDB()
@@ -48,6 +50,7 @@ connectDB()
 app.use("/api/productos", rutasProductos)
 app.use("/api/auth", rutasAuth)
 app.use("/api/carrito", rutasCarrito)
+app.use("/api/orden", rutasOrden)
 app.use("/", (req, res) => {
    // Here user can also design an
    // error page and render it

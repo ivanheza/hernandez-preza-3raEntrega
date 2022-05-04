@@ -1,11 +1,9 @@
 import express from "express"
 import Users from "../model/userMongo.js"
-import multer from "multer"
-
-import config from "../config/config.js"
 import passport from "passport"
 import isAuthenticated from "../helpers/isAuth.js"
 import {upload} from "../helpers/multer.js"
+import {nodeMailerOptions, transporter} from "../helpers/nodeMailer.js"
 
 const router = express.Router()
 
@@ -35,6 +33,15 @@ router.post("/signup", upload.single("file"), async (req, res) => {
          newUser.password = await newUser.encryptPass(password)
          //console.log("user con pass hasheado", newUser)
          await newUser.save()
+         let html = `<h1>Se registro un nuevo usuario</h1> <hr/>
+                     <ul>
+                     <li>${nombre}</li>
+                     <li>${email}</li>
+                     <li>${edad}</li>
+                     <li>${telefono}</li>
+                     </ul>`
+         const mailOption = nodeMailerOptions(html)
+         await transporter.sendMail(mailOption)
 
          res.json({successMessage: "Registration Succes. Please Login"})
       }

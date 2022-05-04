@@ -1,19 +1,22 @@
 import {createContext, useContext, useEffect, useState} from "react"
-import {addToCart, deleteProdByID, newCart} from "../api/cartApi"
+import {addToCart, deleteCart, deleteProdByID, newCart} from "../api/cartApi"
 
-import {getLocalStorage, setLocalStorage} from "../helpers/localStorage"
+import {
+   deleteLocalStorage,
+   getLocalStorage,
+   setLocalStorage,
+} from "../helpers/localStorage"
 
 const CartContext = createContext([])
 
 export const useCartContext = () => useContext(CartContext)
 
 function CartProvider({children}) {
+   const def = {
+      productos: [],
+   }
    const [cart, setCart] = useState(
-      getLocalStorage("cart")
-         ? getLocalStorage("cart")
-         : {
-              productos: [],
-           }
+      getLocalStorage("cart") ? getLocalStorage("cart") : def
    )
    //console.log(cart)
    console.log()
@@ -48,13 +51,32 @@ function CartProvider({children}) {
          setLocalStorage("cart", carrrito)
       })
    }
+   const borarrCarrito = async (id) => {
+      try {
+         const deleted = await deleteCart(id)
+         deleteLocalStorage("cart")
+         setCart(def)
+
+         newCart(id).then((res) => {
+            //console.log(res)
+            const carrrito = res.data.carrito
+            console.log(carrrito)
+            setCart(carrrito)
+            setLocalStorage("cart", carrrito)
+            console.log("Se Creo un nuevo carrito")
+         })
+      } catch (error) {
+         console.log(error)
+      }
+   }
 
    useEffect(() => {
       getLocalStorage("cart")
    }, [cart])
 
    return (
-      <CartContext.Provider value={{getCart, borrarProducto, handleAdd, cart}}>
+      <CartContext.Provider
+         value={{getCart, borrarProducto, handleAdd, borarrCarrito, cart, orders}}>
          {children}
       </CartContext.Provider>
    )

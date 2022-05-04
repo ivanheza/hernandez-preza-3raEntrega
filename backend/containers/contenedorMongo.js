@@ -50,7 +50,7 @@ class ContenedorMongo {
          console.log(existe)
          await this.model.deleteOne({_id: id})
 
-         return "El Producto Fue Borrado con éxito"
+         return "El registro fue borrado con éxito."
       } catch (error) {
          console.log(error)
       }

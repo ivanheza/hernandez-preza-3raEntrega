@@ -89,7 +89,7 @@ const Productos = ({user, cart}) => {
                            <hr />
                            <div className="d-flex justify-content-evenly mb-2">
                               <button
-                                 onClick={() => handleAdd(p)}
+                                 onClick={() => handleAdd(p, user._id)}
                                  className="btn btn-info"
                                  data-id={p.id}>
                                  Add To Cart

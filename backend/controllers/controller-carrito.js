@@ -42,31 +42,61 @@ const getCarrito = async (req, res) => {
 const addToCart = async (req, res) => {
    const {id} = req.params
    const product = req.body
-   console.log(id, "ID CART")
+   // console.log(id, "ID CART")
    const actualCart = await CarritosDB.findByID(id)
-   console.log(actualCart)
+   // console.log(actualCart)
    if (!actualCart) {
-      console.log("Error")
-      res.json({msg: "Hubo un error"})
+      let newCart = await new CarritosDB.model(user)
+      newCart.save()
+      console.log("Posting NewCart", newCart)
+      res.json({msg: "Carrito Creado Con Exitdo", carrito: newCart})
    } else {
-      actualCart.productos.push(product)
+      console.log(actualCart.productos)
+      const existe = actualCart.productos.findIndex((p) => p.nombre == product.nombre)
 
-      await actualCart.save()
-      console.log(actualCart)
+      console.log(existe, "existe")
+      if (existe < 0) {
+         product.qty = 1
+
+         actualCart.productos.push(product)
+         const editado = await actualCart.save()
+      } else {
+         const prodCarrito = await actualCart.productos.find((p) => p._id == product._id)
+         console.log("ya esta en el carrito", prodCarrito)
+
+         prodCarrito.qty = prodCarrito.qty + 1
+         console.log(actualCart)
+         const editado = await CarritosDB.model.findByIdAndUpdate(id, actualCart, {
+            new: true,
+            runValidators: true,
+            useUnified: true,
+         })
+         //console.log(actualCart) findByIdAndUpdate
+         console.log(editado)
+         //console.log(editado, "EDITADO")
+      }
 
       res.json({msg: "Se Agregó Producto", carrito: actualCart})
    }
 }
 
 const deleteCart = async (req, res) => {
-   const {id} = req.params
-   const buscarCarrito = await CarritosDB.findByID(id)
-   if (!buscarCarrito) {
-      const error = new Error("El Carrito que buscas no existe...")
-      return res.status(400).json({msg: error.message})
+   try {
+      const {id} = req.params
+      const buscarCarrito = await CarritosDB.findByID(id)
+      if (!buscarCarrito) {
+         const error = new Error("El Carrito que buscas no existe...")
+         return res.status(400).json({msg: error.message})
+      }
+      await CarritosDB.deleteByID(id)
+      console.log("SE BORRO EL CARRITO")
+      res.json({success: true, successMessage: "El carrito se borró con éxito"})
+   } catch (error) {
+      const msg = "No se pudo borrar el carrito."
+
+      console.log(error)
+      res.send({success: false, errorMessage: msg})
    }
-   const cart = await dbCarrito.deleteCart(id)
-   res.json(cart)
 }
 
 const deleteProdByID = async (req, res) => {

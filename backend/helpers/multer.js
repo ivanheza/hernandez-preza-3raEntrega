@@ -3,7 +3,7 @@ import mime from "mime-types"
 
 export const storage = multer.diskStorage({
    destination: (req, file, cb) => {
-      cb(null, "uploads")
+      cb(null, "./backend/public")
    },
    filename: (req, file, cb) => {
       let nombre = req.body.nombre

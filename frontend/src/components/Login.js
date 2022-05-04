@@ -62,11 +62,19 @@ const Login = ({user}) => {
             }
          })
          .catch((err) => {
-            console.log("Axios Login Error", err.response.data.errorMesage)
-            setFormData({
-               ...formData,
-               errorMessage: err.response.data.errorMessage,
-            })
+            if (err.response.data.errorMesage) {
+               console.log("Axios Login Error", err.response.data.errorMesage)
+               setFormData({
+                  ...formData,
+                  errorMessage: err.response.data.errorMessage,
+               })
+            } else {
+               console.log(err)
+               setFormData({
+                  ...formData,
+                  errorMessage: "Oops... Hubo un problema con el servidor.",
+               })
+            }
          })
    }
 
