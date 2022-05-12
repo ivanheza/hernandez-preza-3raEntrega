@@ -1,5 +1,5 @@
 import {createTransport} from "nodemailer"
-
+import fs from "fs"
 export const transporter = createTransport({
    host: "smtp.gmail.com",
    port: 465,
@@ -16,6 +16,14 @@ export const nodeMailerOptions = (subject, html) => {
       to: process.env.MAIL,
       subject: subject,
       html: html,
+      ///ruta relativa
+      /* attachments: [
+         {
+            // stream as an attachment
+            filename: "image.jpg",
+            content: fs.createReadStream("/public/Pepe Perez.jpeg"),
+         },
+      ], */
    }
    return mailOptions
 }

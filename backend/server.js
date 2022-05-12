@@ -14,61 +14,96 @@ import rutasCarrito from "./routes/routes-carrito.js"
 import rutasAuth from "./routes/routes-auth.js"
 import rutasOrden from "./routes/routes-orden.js"
 import connectDB from "./config/mongodb.js"
+const router = express.Router()
 ///-- Passport
 import "./config/passport.js"
+///-- Logger
+import logger from "./helpers/logger-winston.js"
+///CLUSTER
+import cluster from "cluster"
+import {cpus} from "os"
+import process from "process"
 
-const app = express()
-dotenv.config()
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
-///---- Config Middlewares
+const MODO_CLUSTER = process.argv[2] == "CLUSTER"
 
-app.use(cors())
-app.use(morgan("dev"))
-app.use(express.json())
-app.use(express.urlencoded({extended: false}))
-app.use(
-   session({
-      secret: "secretcode",
-      resave: false,
-      saveUninitialized: false,
-      cookie: {
-         ///---espacio por sesión de 10min
-         maxAge: 600000,
-      },
-   })
-)
-app.use(cookieparser("secretcode"))
-app.use(passport.initialize())
-app.use(passport.session())
-app.use("/uploads", express.static(process.cwd() + "/uploads"))
-app.use("/backend/public", express.static(process.cwd() + "/backend/public"))
+if (MODO_CLUSTER && cluster.isPrimary) {
+   const numCPUs = cpus().length
 
-//-----------------------------------------
-connectDB()
+   console.log(`Número de procesadores: ${numCPUs}`)
 
-app.use("/api/productos", rutasProductos)
-app.use("/api/auth", rutasAuth)
-app.use("/api/carrito", rutasCarrito)
-app.use("/api/orden", rutasOrden)
-app.use("/", (req, res) => {
-   // Here user can also design an
-   // error page and render it
-   res.send("Server Running")
-})
+   console.log(`PID MASTER ${process.pid}`)
 
-app.use("*", (req, res) => {
-   // Here user can also design an
-   // error page and render it
-   res.status(400).json({error: 0, descripcion: "La ruta que buscas no existe"})
-})
-
-const PORT = process.env.PORT || 8080
-
-app.listen(PORT, (err) => {
-   if (err) {
-      throw new Error(`Error en el Servidor ${err}`)
+   for (let i = 0; i < numCPUs; i++) {
+      cluster.fork()
    }
 
-   console.log(`Servidor Funcionando en el Puerto ${PORT}`)
-})
+   cluster.on("exit", (worker) => {
+      console.log("Worker", worker.process.pid, "died", new Date().toLocaleString())
+      cluster.fork()
+   })
+} else {
+   /////////////////////////////////////////-----
+   // servidor api
+   const app = express()
+   dotenv.config()
+   const __filename = fileURLToPath(import.meta.url)
+   const __dirname = dirname(__filename)
+   ///---- Config Middlewares
+
+   app.use(cors())
+   app.use(morgan("dev"))
+   app.use(express.json())
+   app.use(express.urlencoded({extended: false}))
+   app.use(
+      session({
+         secret: "secretcode",
+         resave: false,
+         saveUninitialized: false,
+         cookie: {
+            ///---espacio por sesión de 10min
+            maxAge: 600000,
+         },
+      })
+   )
+   app.use(cookieparser("secretcode"))
+   app.use(passport.initialize())
+   app.use(passport.session())
+   app.use("/uploads", express.static(process.cwd() + "/uploads"))
+   app.use("/backend/public", express.static(process.cwd() + "/backend/public"))
+
+   //-----------------------------------------
+   connectDB()
+   app.use("/api/productos", rutasProductos)
+   app.use("/api/auth", rutasAuth)
+   app.use("/api/carrito", rutasCarrito)
+   app.use("/api/orden", rutasOrden)
+
+   app.use((err, req, res, next) => {
+      if (err) {
+         return res.status(err.statusCode || 500).json(err.message)
+      }
+      next()
+   })
+   app.use("/server", (req, res) => {
+      res.send("Server Running")
+   })
+
+   app.use("*", (req, res) => {
+      const {url, method} = req
+
+      //      console.log(method, url, "metodos")
+      logger.error(`Ruta ${method} ${url} no implementada`)
+      res.status(404).json({error: 0, descripcion: "La ruta que buscas no existe"})
+   })
+
+   const PORT = process.env.PORT || 8080
+
+   app.listen(PORT, (err) => {
+      if (err) {
+         logger.error("Error en el servidor")
+         throw new Error(`Error en el Servidor ${err}`)
+      }
+
+      console.log(`Servidor Funcionando en el Puerto ${PORT}`)
+   })
+}

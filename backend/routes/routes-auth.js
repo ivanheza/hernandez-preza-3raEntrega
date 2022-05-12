@@ -35,13 +35,13 @@ router.post("/signup", upload.single("file"), async (req, res) => {
          await newUser.save()
          let html = `<h1>Se registro un nuevo usuario</h1> <hr/>
                      <ul>
-                     <li>${nombre}</li>
-                     <li>${email}</li>
-                     <li>${edad}</li>
-                     <li>${telefono}</li>
+                     <li>Nombre: ${nombre}</li>
+                     <li>Email: ${email}</li>
+                     <li>Edad: ${edad}</li>
+                     <li>Teléfono: ${telefono}</li>
                      </ul>`
-         const mailOption = nodeMailerOptions(html)
-         await transporter.sendMail(mailOption)
+         const mailOption = nodeMailerOptions("¡Nuevo Usuario Registrado!", html)
+         await transporter.sendMail("Se Registro Nuevo Usuario.", mailOption)
 
          res.json({successMessage: "Registration Succes. Please Login"})
       }

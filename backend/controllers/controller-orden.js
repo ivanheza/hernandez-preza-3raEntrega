@@ -1,4 +1,6 @@
+import logger from "../helpers/logger-winston.js"
 import {nodeMailerOptions, transporter} from "../helpers/nodeMailer.js"
+import {twilioSMS, twilioWapp} from "../helpers/twilio.js"
 import ordenDB from "../model/ordenMongo.js"
 import Users from "../model/userMongo.js"
 
@@ -8,7 +10,7 @@ export const getOrden = async (req, res) => {
 
       res.send({success: true, orders})
    } catch (error) {
-      console.log(error)
+      logger.error(error)
       const msg = "Ocurrió un error"
       res.send({success: false, errorMessage: msg})
    }
@@ -46,16 +48,27 @@ export const nuevaOrden = async (req, res) => {
          <li>Total: $ ${total}</li>
          </ul>
          `
-         console.log(subject)
+
+         ////----- nodeMailer
          const mailOptions = nodeMailerOptions(subject, html)
          const send = await transporter.sendMail(mailOptions)
          console.log(send)
+
+         ////----- twilio Whatsapp
+         const whatsapp = await twilioWapp(subject)
+         console.log(whatsapp)
+         ////----- twilio SMS
+         const smsBody =
+            "Tu pedido ha sido recibído y se encuentra en proceso. ¡Gracias por tu compra!"
+         const sms = await twilioSMS(smsBody, user.telefono)
+         console.log(sms)
          res.status(200).send({
             success: true,
-            successMessage: "Tu compra se generó con éxito ",
+            successMessage: "Tu pedido se generó con éxito ",
          })
       }
    } catch (error) {
+      logger.error(error)
       const msg = "Ocurrió un error al procesar tu orden."
       res.send({success: false, errorMessage: msg})
    }

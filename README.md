@@ -1,4 +1,4 @@
-# Segunda Entrega proyecto final: aplicación eCommerce Backend.
+# Entrega 3 proyecto: aplicación eCommerce Backend.
 
 El desarrollo del backend de la api está dentro de la carpeta backend trabajando en el puerto 9000 y el front end basado en react trabajando en el puerto 3000
 
@@ -7,9 +7,14 @@ El desarrollo del backend de la api está dentro de la carpeta backend trabajand
 -  **npm run start:** inicializa el proyecto
 -  **npm run dev:** inicializa en modo development
 
+-  El servidor esta preparado para trabajar de modo local o en la nube.
+-  Se puede inicializar en modo cluster con el argumento CLUSTER en la consola.
+-  Se implemento el uso de winston para el manejo de los errores moderados y severos en el servidor.
+-  Se realizo una prueba de performance con artillery para el listado de productos.
+
 ## FrontEnd React:
 
--  Inicializar desde consola en la carpeta frontend con
+-  Inicializar desde otra consola en la carpeta frontend con
    -  **npm run start:** inicializa el proyecto frontend
 
 ## Database
@@ -31,7 +36,6 @@ El proyecto esta programado para trabajar con MongoDB
 
 -  MONGO URL
 -  PORT
--  JWT
 
 ## RUTAS Servidor Backend
 
