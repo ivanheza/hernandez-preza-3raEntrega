@@ -1,6 +1,10 @@
 import twilio from "twilio"
-const accountSid = "AC999beca9e708c9108ab2b2d1b9a6075b"
-const authToken = "6f99566716a0670f394ee1616c9d5b46"
+
+//console.log(process.env.ACCOUNT_SID)
+const accountSid = process.env.ACCOUNT_SID
+//console.log(process.env.TWILIO_TOKEN)
+const authToken = process.env.TWILIO_TOKEN
+
 const client = twilio(accountSid, authToken)
 
 ////------- twilio WHATSAPP
@@ -10,8 +14,7 @@ export const twilioWapp = async (body) => {
       body: body,
       from: "whatsapp:+14155238886",
       to: "whatsapp:+5215525646086",
-      mediaUrl:
-         "https://www.aticascipione.com.br/wp-content/uploads/2019/05/logo-hello.png",
+      mediaUrl: "https://browntape.com/wp-content/uploads/2017/09/bb.png",
    })
    return message
 }

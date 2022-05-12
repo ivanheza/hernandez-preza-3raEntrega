@@ -12,14 +12,14 @@ export const nuevaOrden = async (orden) => {
    return response
 }
 
-export const getOrders = async () => {
+export const getOrders = async (nombre) => {
    const config = {
       headers: {
          "Content-Type": "application/json",
       },
    }
 
-   const response = await axios.get("/api/orden", config)
+   const response = await axios.get("/api/orden/", {params: {nombre: nombre}})
 
    return response
 }

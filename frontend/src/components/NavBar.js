@@ -15,7 +15,7 @@ const NavBar = () => {
             setTimeout(() => {
                exitUser()
                navigate("/login")
-            }, 2000)
+            }, 500)
          })
          .catch((err) => {
             console.log("Axios Logout Error", err)

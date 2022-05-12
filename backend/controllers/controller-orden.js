@@ -5,8 +5,11 @@ import ordenDB from "../model/ordenMongo.js"
 import Users from "../model/userMongo.js"
 
 export const getOrden = async (req, res) => {
+   const {nombre} = req.query
+   //console.log(email)
    try {
-      const orders = ordenDB.readAll()
+      const orders = await ordenDB.model.findOne({nombre: nombre})
+      console.log(orders)
 
       res.send({success: true, orders})
    } catch (error) {
