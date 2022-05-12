@@ -53,7 +53,7 @@ router.post("/signup", upload.single("file"), async (req, res) => {
 })
 
 router.post("/login", (req, res, next) => {
-   console.log("desde post")
+   //console.log("desde post")
    passport.authenticate("local", (err, user, info) => {
       if (user) {
          req.logIn(user, (err) => {

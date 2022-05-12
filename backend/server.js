@@ -77,13 +77,6 @@ if (MODO_CLUSTER && cluster.isPrimary) {
    app.use("/api/auth", rutasAuth)
    app.use("/api/carrito", rutasCarrito)
    app.use("/api/orden", rutasOrden)
-
-   app.use((err, req, res, next) => {
-      if (err) {
-         return res.status(err.statusCode || 500).json(err.message)
-      }
-      next()
-   })
    app.use("/server", (req, res) => {
       res.send("Server Running")
    })
