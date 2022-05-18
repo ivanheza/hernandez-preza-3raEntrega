@@ -25,7 +25,7 @@ export const twilioSMS = async (mensaje, telefono) => {
    const message = await client.messages.create({
       body: mensaje,
       from: "+19793644599",
-      to: `+52${telefono}`,
+      to: `+${telefono}`,
    })
    return message
 }
