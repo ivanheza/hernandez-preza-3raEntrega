@@ -3,12 +3,13 @@ import {nodeMailerOptions, transporter} from "../helpers/nodeMailer.js"
 import {twilioSMS, twilioWapp} from "../helpers/twilio.js"
 import ordenDB from "../model/ordenMongo.js"
 import Users from "../model/userMongo.js"
+import productsDB from "../model/productosMongo.js"
 
 export const getOrden = async (req, res) => {
    const {nombre} = req.query
    //console.log(email)
    try {
-      const orders = await ordenDB.model.findOne({nombre: nombre})
+      const orders = await ordenDB.model.find({nombre: nombre})
       console.log(orders)
 
       res.send({success: true, orders})
@@ -41,7 +42,9 @@ export const nuevaOrden = async (req, res) => {
          <h3>${user.telefono}</h3>
          <hr />
          <ul>
-         ${productos.map((p) => {
+         ${productos.map(async (p) => {
+            const prod = await productsDB.findByID(p._id)
+            prod.stock - 1
             return `
             <li>${p.nombre}</li>
             <li>$ ${p.precio}</li>
@@ -64,10 +67,11 @@ export const nuevaOrden = async (req, res) => {
          const smsBody =
             "Tu pedido ha sido recibído y se encuentra en proceso. ¡Gracias por tu compra!"
          const sms = await twilioSMS(smsBody, user.telefono)
-         console.log(sms)
+         //console.log(sms)
+
          res.status(200).send({
             success: true,
-            successMessage: "Tu pedido se generó con éxito ",
+            successMessage: "El pedido se generó con éxito",
          })
       }
    } catch (error) {

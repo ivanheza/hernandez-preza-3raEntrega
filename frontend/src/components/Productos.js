@@ -1,15 +1,15 @@
 import React, {useState, useEffect} from "react"
-import axios from "axios"
 import {useCartContext} from "../context/cartContext"
 import ModalEdit from "./ModalEditProduct"
 import {deleteByID} from "../api/productsApi"
 import {errorAlert} from "../helpers/alerts"
+import {useUserContext} from "../context/userContext"
 
 const Productos = ({user, cart}) => {
    const [modal, SetModal] = useState(false)
    const [prodID, SetprodID] = useState(false)
-   const [productos, setProductos] = useState([])
    const {handleAdd} = useCartContext()
+   const {productos} = useUserContext()
    const [resMessage, setResMessage] = useState(false)
    //console.log(cart, user, "PRODUCTOS CMP")
 
@@ -45,10 +45,8 @@ const Productos = ({user, cart}) => {
    }
 
    useEffect(() => {
-      const data = axios
-         .get("http://localhost:9000/api/productos")
-         .then((res) => setProductos(res.data))
-   }, [])
+      console.log(productos)
+   }, [productos])
 
    return (
       <div className="row ">

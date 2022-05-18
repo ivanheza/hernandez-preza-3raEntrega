@@ -50,6 +50,13 @@ const Signup = ({user}) => {
       setFile(e.target.files[0])
    }
 
+   const selectPais = (e) => {
+      e.preventDefault()
+      console.log(e.target.namez)
+      setFormData({telefono: e.target.value})
+      console.log(formData)
+   }
+
    const handleSubmit = (e) => {
       e.preventDefault()
       const {email, password, nombre, direccion, edad, telefono} = formData
@@ -160,18 +167,6 @@ const Signup = ({user}) => {
                   <div className="form-group mb-2">
                      <input
                         className="form-control"
-                        id="direccion"
-                        type="text"
-                        name="direccion"
-                        value={direccion}
-                        placeholder="Introduce tu direccion"
-                        onChange={handleChange}
-                        required
-                     />
-                  </div>
-                  <div className="form-group mb-2">
-                     <input
-                        className="form-control"
                         id="edad"
                         type="number"
                         min="18"
@@ -182,6 +177,35 @@ const Signup = ({user}) => {
                         onChange={handleChange}
                         required
                      />
+                  </div>
+                  <div className="form-group mb-2">
+                     <input
+                        className="form-control"
+                        id="direccion"
+                        type="text"
+                        name="direccion"
+                        value={direccion}
+                        placeholder="Introduce tu dirección"
+                        onChange={handleChange}
+                        required
+                     />
+                  </div>
+                  <div className="form-group mb-2">
+                     <select
+                        class="form-select"
+                        onChange={selectPais}
+                        aria-label="Default select example">
+                        <option selected>Selecciona un país</option>
+                        <option value="52" name="MX">
+                           MX
+                        </option>
+                        <option value="57" name="COL">
+                           COL
+                        </option>
+                        <option value="54" name="ARG">
+                           ARG
+                        </option>
+                     </select>
                   </div>
                   <div className="form-group mb-2">
                      <input

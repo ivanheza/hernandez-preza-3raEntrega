@@ -1,9 +1,11 @@
 import React, {useState} from "react"
 import {editProduct} from "../api/productsApi"
+import {useUserContext} from "../context/userContext"
 import {errorAlert, successAlert} from "../helpers/alerts"
 
 const ModalEdit = ({hide, product}) => {
    console.log(product._id)
+
    const [formData, setFormData] = useState({
       nombre: product.nombre,
       precio: product.precio,
@@ -51,10 +53,12 @@ const ModalEdit = ({hide, product}) => {
                errorMessage: false,
                successMessage: res.data.successMessage,
             })
+
             setTimeout(() => {
                hide()
+               window.location.reload(false)
                console.log("cerrar")
-            }, 2500)
+            }, 1000)
          })
          .catch((err) => {
             console.log(err.response)

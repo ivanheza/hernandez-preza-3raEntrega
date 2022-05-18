@@ -51,8 +51,10 @@ const ModalAdd = ({hide}) => {
                successMessage: res.data.msg,
             })
             setTimeout(() => {
+               window.location.reload(false)
+
                hide()
-            }, 2500)
+            }, 1000)
          })
          .catch((err) => {
             console.log(err.response)

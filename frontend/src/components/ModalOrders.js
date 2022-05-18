@@ -11,7 +11,10 @@ const ModalOrders = ({hide}) => {
    useEffect(() => {
       console.log(user)
       const nombre = user.nombre
-      getOrders(nombre).then((res) => setOrders(res.data.orders))
+      getOrders(nombre).then((res) => {
+         //console.log(res.data.orders)
+         setOrders(res.data.orders)
+      })
    }, [])
 
    ////----MODAL STYLE
@@ -34,20 +37,29 @@ const ModalOrders = ({hide}) => {
                      <h1>No tienes pedidos en tu historial</h1>
                   ) : (
                      <div>
-                        <h5>{orders.nombre}</h5>
-                        <p>ID de la orden: {orders._id}</p>
-                        <ul>
-                           {orders.productos.map((p, index) => {
-                              console.log(p)
-                              return (
-                                 <div key={index}>
-                                    <li>{p.nombre}</li>
-                                    <li>{p.precio}</li>
-                                 </div>
-                              )
-                           })}
-                        </ul>
-                        <h5>total: $ {orders.total}</h5>
+                        {orders.map((o, index) => {
+                           return (
+                              <div key={index}>
+                                 <h5>
+                                    <span className="fs-1">#{index + 1} </span>
+                                    {o.nombre}
+                                 </h5>
+                                 <p>ID de la orden: {o._id}</p>
+                                 <ul>
+                                    {o.productos.map((p, index) => {
+                                       console.log(p)
+                                       return (
+                                          <div key={index}>
+                                             <li>{p.nombre}</li>
+                                             <li>{p.precio}</li>
+                                          </div>
+                                       )
+                                    })}
+                                 </ul>
+                                 <h5>total: $ {o.total}</h5>
+                              </div>
+                           )
+                        })}
                      </div>
                   )}
                </div>

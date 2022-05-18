@@ -6,6 +6,7 @@ import {
    getLocalStorage,
    setLocalStorage,
 } from "../helpers/localStorage"
+import axios from "axios"
 
 const UserContext = createContext([])
 
@@ -14,6 +15,21 @@ export const useUserContext = () => useContext(UserContext)
 function UserProvider({children}) {
    const [user, setUser] = useState(getLocalStorage("user"))
    // console.log(user)
+   const [productos, setProductos] = useState([])
+
+   const getProducts = async () => {
+      try {
+         //Firestore
+         const res = await axios.get("http://localhost:9000/api/productos")
+         console.log(res)
+         const data = res.data
+         setProductos(data)
+         console.log(productos)
+         //traemos toda la coleccion
+      } catch (error) {
+         console.log(error)
+      }
+   }
    const saveUser = ({user}) => {
       getCookie("connect.sid")
       setUser(user)
@@ -38,7 +54,7 @@ function UserProvider({children}) {
       getLocalStorage("user")
    }, [user])
    return (
-      <UserContext.Provider value={{saveUser, exitUser, user}}>
+      <UserContext.Provider value={{getProducts, productos, saveUser, exitUser, user}}>
          {children}
       </UserContext.Provider>
    )

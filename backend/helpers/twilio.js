@@ -7,7 +7,7 @@ const authToken = process.env.TWILIO_TOKEN
 
 const client = twilio(accountSid, authToken)
 
-////------- twilio WHATSAPP
+////------- twilio WHATSAPPP
 
 export const twilioWapp = async (body) => {
    const message = await client.messages.create({
