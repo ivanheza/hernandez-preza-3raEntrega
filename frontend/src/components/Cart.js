@@ -35,6 +35,7 @@ const Cart = () => {
          //console.log(res)
          setSuccess(res.data.successMessage)
          const deleted = await borarrCarrito(cart._id)
+         console.log(deleted)
          setTimeout(() => {
             navigate("/")
          }, 1000)

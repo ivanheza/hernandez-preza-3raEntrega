@@ -42,9 +42,7 @@ export const nuevaOrden = async (req, res) => {
          <h3>${user.telefono}</h3>
          <hr />
          <ul>
-         ${productos.map(async (p) => {
-            const prod = await productsDB.findByID(p._id)
-            prod.stock - 1
+         ${productos.map((p) => {
             return `
             <li>${p.nombre}</li>
             <li>$ ${p.precio}</li>

@@ -54,6 +54,7 @@ function CartProvider({children}) {
    const borarrCarrito = async (id) => {
       try {
          const deleted = await deleteCart(id)
+         console.log(deleted)
          deleteLocalStorage("cart")
          setCart(def)
 

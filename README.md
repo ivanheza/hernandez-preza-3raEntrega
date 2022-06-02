@@ -17,6 +17,15 @@ El desarrollo del backend de la api está dentro de la carpeta backend trabajand
 -  Inicializar desde otra consola en la carpeta frontend con
    -  **npm run start:** inicializa el proyecto frontend
 
+## Artillery
+
+-  Para la prueba FORK corremos _npm start_ y en otra terminal ejecutamos artillery.
+-  Comando para prueba artillery:
+   artillery quick --count 50 -n 40 http://localhost:9000/api/productos/ > result_fork.txt
+-  Prueba cluster Artillery ejecutamos _npm run cluster_ y en otra terminal ejecutamos artillery.
+-  Comando para prueba artillery:
+   artillery quick --count 50 -n 40 http://localhost:9000/api/productos/ > result_cluster.txt
+
 ## Database
 
 El proyecto esta programado para trabajar con MongoDB

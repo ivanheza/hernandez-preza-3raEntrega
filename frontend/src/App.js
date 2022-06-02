@@ -12,7 +12,7 @@ import Cart from "./components/Cart"
 import {useEffect} from "react"
 
 function App() {
-   const {user, getProducts, productos} = useUserContext()
+   const {user, getProducts} = useUserContext()
 
    useEffect(() => {
       getProducts()

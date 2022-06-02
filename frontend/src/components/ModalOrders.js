@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react"
 import {getOrders} from "../api/ordenApi"
 
 import {useUserContext} from "../context/userContext"
-import {errorAlert, successAlert} from "../helpers/alerts"
 
 const ModalOrders = ({hide}) => {
    const {user} = useUserContext()

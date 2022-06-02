@@ -18,12 +18,12 @@ const Signup = ({user}) => {
    /////------
    const [file, setFile] = useState(false)
    const [formData, setFormData] = useState({
-      email: "musik.imix@gmail.com",
+      email: "alex@gmail.com",
       password: "123456",
-      nombre: "",
-      direccion: "",
-      edad: "",
-      telefono: "",
+      nombre: "Alejandro",
+      direccion: "CDMX",
+      edad: 25,
+      telefono: "525567879040",
 
       loading: false,
       successMessage: false,
@@ -50,12 +50,12 @@ const Signup = ({user}) => {
       setFile(e.target.files[0])
    }
 
-   const selectPais = (e) => {
+   /*   const selectPais = (e) => {
       e.preventDefault()
       console.log(e.target.namez)
       setFormData({telefono: e.target.value})
       console.log(formData)
-   }
+   } */
 
    const handleSubmit = (e) => {
       e.preventDefault()
@@ -190,10 +190,10 @@ const Signup = ({user}) => {
                         required
                      />
                   </div>
-                  <div className="form-group mb-2">
+                  {/*  <div className="form-group mb-2">
                      <select
-                        class="form-select"
-                        onChange={selectPais}
+                        className="form-select"
+                        onSelect={selectPais}
                         aria-label="Default select example">
                         <option selected>Selecciona un país</option>
                         <option value="52" name="MX">
@@ -206,7 +206,7 @@ const Signup = ({user}) => {
                            ARG
                         </option>
                      </select>
-                  </div>
+                  </div> */}
                   <div className="form-group mb-2">
                      <input
                         className="form-control"

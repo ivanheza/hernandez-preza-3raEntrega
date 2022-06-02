@@ -1,6 +1,5 @@
 import React, {useState} from "react"
 import {editProduct} from "../api/productsApi"
-import {useUserContext} from "../context/userContext"
 import {errorAlert, successAlert} from "../helpers/alerts"
 
 const ModalEdit = ({hide, product}) => {
