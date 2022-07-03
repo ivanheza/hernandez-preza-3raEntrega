@@ -7,7 +7,8 @@ El desarrollo del backend está de la api está dentro de la carpeta backend tra
 ### Aplicación en Heroku
 
 Aquí dejo el link para la vista del servidor del backend en heroku funcionando.
-[ecommerce Backend Heroku](https://ecommerce-ihp.herokuapp.com/api/productos "Ver más")
+/server
+[ecommerce Backend Heroku](https://ecommerce-ihp.herokuapp.com/server "Ver más")
 se puede acceder a los diferentes endpoints con postman...
 
 ## Backend: Inicializar servidor desde la consola en la carpeta principal con:
