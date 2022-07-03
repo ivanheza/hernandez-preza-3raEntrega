@@ -4,6 +4,12 @@ Es un proyecto estructurado con base en la arquitectura MVC para la consulta de 
 
 El desarrollo del backend está de la api está dentro de la carpeta backend trabajando en el puerto 9000 y el front end basado en react trabajando en el puerto 3000
 
+### Aplicación en Heroku
+
+Aquí dejo el link para la vista del servidor del backend en heroku funcionando.
+[ecommerce Backend Heroku](https://ecommerce-ihp.herokuapp.com/api/productos "Ver más")
+se puede acceder a los diferentes endpoints con postman...
+
 ## Backend: Inicializar servidor desde la consola en la carpeta principal con:
 
 -  **npm run dev:** inicializa en modo development
