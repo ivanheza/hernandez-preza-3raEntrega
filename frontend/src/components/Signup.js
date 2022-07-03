@@ -20,7 +20,7 @@ const Signup = ({user}) => {
    const [formData, setFormData] = useState({
       email: "alex@gmail.com",
       password: "123456",
-      nombre: "Alejandro",
+      nombre: "Alejandro Hernandez",
       direccion: "CDMX",
       edad: 25,
       telefono: "525567879040",

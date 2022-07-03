@@ -15,6 +15,6 @@ const carritoSchema = mongoose.Schema(
    {timestamps: true}
 )
 
-//const Productos = mongoose.model("Productos", productoSchema)
+const CarritosModel = mongoose.model("Carritos", carritoSchema)
 
-export default carritoSchema
+export default CarritosModel

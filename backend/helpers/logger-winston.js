@@ -1,9 +1,14 @@
 import winston from "winston"
+import dotenv from "dotenv"
 
+dotenv.config()
 function buildProdLogger() {
    const prodLogger = winston.createLogger({
       transports: [
-         new winston.transports.File({filename: "./backend/error.log", level: "error"}),
+         new winston.transports.File({
+            filename: "./backend/logger/error.log",
+            level: "error",
+         }),
          new winston.transports.Console({level: "verbose"}),
       ],
       format: winston.format.combine(winston.format.colorize(), winston.format.json()),

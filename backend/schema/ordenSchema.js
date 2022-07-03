@@ -26,4 +26,6 @@ const ordenSchema = mongoose.Schema(
    {timestamps: true}
 )
 
-export default ordenSchema
+const OrdenMod = mongoose.model("Pedidos", ordenSchema)
+
+export default OrdenMod

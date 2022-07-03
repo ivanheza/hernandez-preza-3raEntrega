@@ -1,5 +1,6 @@
 ///----///---- Middleware para autenticar el acceso a rutas
 const isAuthenticated = (req, res, next) => {
+   console.log(req.isAuthenticated())
    try {
       if (req.isAuthenticated()) {
          next()

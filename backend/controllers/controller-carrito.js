@@ -1,13 +1,11 @@
-import dotenv from "dotenv"
 import logger from "../helpers/logger-winston.js"
-dotenv.config()
-import CarritosDB from "../model/carritoMongo.js"
+import CarritoDAO from "../services/CarritoDao.js"
 
-let mode = process.env.DATABASE
-console.log("variable de entorno", mode)
+const CarritosDB = new CarritoDAO()
 
 const getAll = async (req, res) => {
    try {
+      console.log("desde get all carrito")
       const carts = await CarritosDB.readAll()
 
       res.send(carts)
@@ -19,35 +17,23 @@ const getAll = async (req, res) => {
 
 const addCart = async (req, res) => {
    try {
-      console.log(req.body.id)
+      console.log(req.body)
       const user = {user: req.body.id}
-
-      console.log(user)
-      const cart = await CarritosDB.model.findOne(user)
-      if (!cart) {
-         let newCart = await new CarritosDB.model(user)
-         newCart.save()
-         console.log("Posting NewCart", newCart)
-         res.json({msg: "Carrito Creado Con Exitdo", carrito: newCart})
-      } else {
-         console.log("Ya Hay")
-         res.json({msg: "Ya tienes un carrito", carrito: cart})
-      }
+      const cart = await CarritosDB.guardarNuevo(user)
+      console.log(cart)
+      res.json(cart)
    } catch (error) {
       res.status(404).json({errorMessage: error.message})
       logger.error(error.message)
+      console.log(error)
    }
 }
 //GET BY ID
 const getCarrito = async (req, res) => {
    try {
       const id = req.params.id
-      //console.log("IDCART", id)
-      let cart = await dbCarrito.readID(id)
-      if (!cart) {
-         const error = new Error("El Carrito que buscas no existe...")
-         return res.status(400).json({msg: error.message})
-      }
+      console.log("IDCART", id)
+      let cart = await CarritosDB.readID(id)
       res.json(cart)
    } catch (error) {
       res.status(404).json({errorMessage: error.message})
@@ -60,10 +46,10 @@ const addToCart = async (req, res) => {
       const {id} = req.params
       const product = req.body
       // console.log(id, "ID CART")
-      const actualCart = await CarritosDB.findByID(id)
+      const actualCart = await CarritosDB.readID(id)
       // console.log(actualCart)
       if (!actualCart) {
-         let newCart = await new CarritosDB.model(user)
+         let newCart = await new CarritosDB.collection(user)
          newCart.save()
          console.log("Posting NewCart", newCart)
          res.json({msg: "Carrito Creado Con Exito", carrito: newCart})
@@ -85,11 +71,15 @@ const addToCart = async (req, res) => {
 
             prodCarrito.qty = prodCarrito.qty + 1
             console.log(actualCart)
-            const editado = await CarritosDB.model.findByIdAndUpdate(id, actualCart, {
-               new: true,
-               runValidators: true,
-               useUnified: true,
-            })
+            const editado = await CarritosDB.collection.findByIdAndUpdate(
+               id,
+               actualCart,
+               {
+                  new: true,
+                  runValidators: true,
+                  useUnified: true,
+               }
+            )
             //console.log(actualCart) findByIdAndUpdate
             console.log(editado)
             //console.log(editado, "EDITADO")
@@ -106,14 +96,9 @@ const addToCart = async (req, res) => {
 const deleteCart = async (req, res) => {
    try {
       const {id} = req.params
-      const buscarCarrito = await CarritosDB.findByID(id)
-      if (!buscarCarrito) {
-         const error = new Error("El Carrito que buscas no existe...")
-         return res.status(400).json({msg: error.message})
-      }
-      await CarritosDB.deleteByID(id)
+      const borrar = await CarritosDB.borrar(id)
       console.log("SE BORRO EL CARRITO")
-      res.json({success: true, successMessage: "El carrito se borró con éxito"})
+      res.json(borrar)
    } catch (error) {
       const msg = "No se pudo borrar el carrito."
 
@@ -127,7 +112,7 @@ const deleteProdByID = async (req, res) => {
    const {id_prod} = req.params
    console.log("Desde delete")
    try {
-      const buscarCarrito = await CarritosDB.findByID(id)
+      const buscarCarrito = await CarritosDB.readID(id)
       //console.log(buscarCarrito)
       if (!buscarCarrito) {
          const error = new Error("El Carrito que buscas no existe...")

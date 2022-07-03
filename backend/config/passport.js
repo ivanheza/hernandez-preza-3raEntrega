@@ -1,6 +1,9 @@
 import {Strategy} from "passport-local"
 import passport from "passport"
-import Users from "../model/userMongo.js"
+
+import UsersDao from "../services/UsersDao.js"
+
+const DAO = new UsersDao()
 
 passport.use(
    new Strategy(
@@ -10,8 +13,8 @@ passport.use(
       },
       async (email, password, done) => {
          //////------------------------Verificacion Email
-         const user = await Users.getUserByEmail(email)
-         //console.log("encontrado", user)
+         const user = await DAO.getUserByEmail(email)
+         console.log("encontrado", user)
          if (!user) {
             //console.log("usuario no encontrado")
             done(null, false, {message: "Usuario no encontrado"})
@@ -34,7 +37,12 @@ passport.serializeUser((user, done) => {
 })
 
 passport.deserializeUser((id, done) => {
-   Users.model.findById(id, (err, user) => {
+   DAO.collection.findById(id, (err, user) => {
+      // console.log("deserialize", user)
+
       done(err, user)
    })
+   /*  DAO.readID(id, (err, user) => {
+      done(err, user)
+   }) */
 })

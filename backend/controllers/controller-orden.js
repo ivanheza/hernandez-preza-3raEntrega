@@ -1,33 +1,37 @@
 import logger from "../helpers/logger-winston.js"
 import {nodeMailerOptions, transporter} from "../helpers/nodeMailer.js"
 import {twilioSMS, twilioWapp} from "../helpers/twilio.js"
-import ordenDB from "../model/ordenMongo.js"
-import Users from "../model/userMongo.js"
-import productsDB from "../model/productosMongo.js"
+import OrdersDAO from "../services/OrdersDao.js"
+import UsersDao from "../services/UsersDao.js"
 
-export const getOrden = async (req, res) => {
+const ordenDB = new OrdersDAO()
+const Users = new UsersDao()
+
+const getOrden = async (req, res) => {
    const {nombre} = req.query
-   //console.log(email)
+   console.log(req.query)
    try {
-      const orders = await ordenDB.model.find({nombre: nombre})
-      console.log(orders)
+      console.log("desde Orden")
+      const orders = await ordenDB.collection.find({nombre: nombre})
+      console.log(orders, "ORDERS")
 
-      res.send({success: true, orders})
+      res.status(200).json({success: true, orders})
    } catch (error) {
       logger.error(error)
+      console.log("error en orden")
       const msg = "Ocurrió un error"
       res.send({success: false, errorMessage: msg})
    }
 }
-export const nuevaOrden = async (req, res) => {
+const nuevaOrden = async (req, res) => {
    try {
       const {cliente, productos, total} = req.body
 
-      const user = await Users.findByID(cliente)
+      const user = await Users.readID(cliente)
 
       console.log(user)
       if (user) {
-         const nuevaOrden = await ordenDB.model({
+         const nuevaOrden = await ordenDB.collection({
             nombre: user.nombre,
             email: user.email,
             telefono: user.telefono,
@@ -78,3 +82,5 @@ export const nuevaOrden = async (req, res) => {
       res.send({success: false, errorMessage: msg})
    }
 }
+
+export {getOrden, nuevaOrden}

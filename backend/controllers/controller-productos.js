@@ -1,10 +1,12 @@
 import dotenv from "dotenv"
 dotenv.config()
-import productsDB from "../model/productosMongo.js"
 
+import ProductosDAO from "../services/ProductosMongo.js"
+
+const productsDB = new ProductosDAO()
 ///FOR USERS
 const getProducts = async (req, res) => {
-   const data = await productsDB.readAll()
+   const data = await productsDB.readData()
    if (data == false) {
       const error = new Error("no hay datos")
       return res.status(400).json({msg: error.message})
@@ -16,7 +18,7 @@ const getByID = async (req, res) => {
    const {id} = req.params
    //console.log(id)
    //const result = await db.readID(id)
-   const result = await productsDB.findByID(id)
+   const result = await productsDB.readID(id)
 
    if (!result) {
       const error = new Error("El Producto No Existe")
@@ -29,14 +31,14 @@ const getByID = async (req, res) => {
 
 const addProduct = async (req, res) => {
    const {nombre} = req.body
-   const existe = await productsDB.model.findOne({nombre: nombre})
+   const existe = await productsDB.collection.findOne({nombre: nombre})
    //console.log(req.body, "ReqBody")
    //console.log(existe)
    if (existe) {
       res.status(400).json({errorMessage: "Ya existe un producto con ese nombre."})
    } else {
       console.log("vamos a guardar")
-      const producto = await productsDB.newProduct(req.body)
+      const producto = await productsDB.guardarNuevo(req.body)
       res.json({msg: "Se añadió un nuevo producto", producto})
    }
 }
@@ -57,7 +59,7 @@ const deleteById = async (req, res) => {
    const {id} = req.params
 
    console.log(id, "BORRAR")
-   const result = await productsDB.deleteByID(id)
+   const result = await productsDB.borrar(id)
 
    if (result == false) {
       return res.status(400).json({errorMessage: "No se encontro el producto..."})

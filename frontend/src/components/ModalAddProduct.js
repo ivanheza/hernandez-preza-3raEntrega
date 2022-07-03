@@ -4,12 +4,12 @@ import {errorAlert, successAlert} from "../helpers/alerts"
 
 const ModalAdd = ({hide}) => {
    const [formData, setFormData] = useState({
-      nombre: "",
-      precio: "",
-      foto: "",
-      descripcion: "",
-      codigo: "",
-      stock: "",
+      nombre: "New Balance",
+      precio: 12500,
+      foto: "https://cdn-images.farfetch-contents.com/18/42/08/18/18420818_39654851_1000.jpg",
+      descripcion: "New Season XC-72",
+      codigo: "NB-2302",
+      stock: 20,
       successMessage: false,
       errorMessage: false,
    })

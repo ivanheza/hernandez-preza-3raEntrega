@@ -25,7 +25,9 @@ const AdminDashboard = ({user}) => {
                <div className="col-md-4 my-1 py-3">
                   <Link to={"/cart"} className="btn btn-sm btn-outline-info w-100">
                      <i className="bi bi-cart"></i> Carrito{" "}
-                     <div className="badge bg-primary">{cart.productos.length}</div>
+                     <div className="badge bg-primary">
+                        {cart.productos.length > 0 ? cart.productos.length : 0}
+                     </div>
                   </Link>
                </div>
                <div className="col-md-4 my-1 py-3">

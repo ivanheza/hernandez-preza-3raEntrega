@@ -6,15 +6,21 @@ import {useUserContext} from "../context/userContext"
 const ModalOrders = ({hide}) => {
    const {user} = useUserContext()
    const [orders, setOrders] = useState(false)
-   console.log(orders)
-   useEffect(() => {
-      console.log(user)
-      const nombre = user.nombre
-      getOrders(nombre).then((res) => {
-         //console.log(res.data.orders)
+
+   const api = async () => {
+      try {
+         const nombre = user.nombre
+         const res = await getOrders(nombre)
+         console.log(res.data)
          setOrders(res.data.orders)
-      })
-   }, [])
+      } catch (error) {
+         console.log(error)
+      }
+   }
+   useEffect(() => {
+      api()
+      console.log(orders, "ORDERS")
+   }, [orders])
 
    ////----MODAL STYLE
    let modalStyle = {

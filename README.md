@@ -1,10 +1,11 @@
-# Entrega 3 proyecto: aplicación eCommerce Backend.
+# Entrega proyecto final : aplicación eCommerce Backend.
 
-El desarrollo del backend de la api está dentro de la carpeta backend trabajando en el puerto 9000 y el front end basado en react trabajando en el puerto 3000
+Es un proyecto estructurado con base en la arquitectura MVC para la consulta de datos en la DB.
+
+El desarrollo del backend está de la api está dentro de la carpeta backend trabajando en el puerto 9000 y el front end basado en react trabajando en el puerto 3000
 
 ## Backend: Inicializar servidor desde la consola en la carpeta principal con:
 
--  **npm run start:** inicializa el proyecto
 -  **npm run dev:** inicializa en modo development
 
 -  El servidor esta preparado para trabajar de modo local o en la nube.
@@ -16,15 +17,6 @@ El desarrollo del backend de la api está dentro de la carpeta backend trabajand
 
 -  Inicializar desde otra consola en la carpeta frontend con
    -  **npm run start:** inicializa el proyecto frontend
-
-## Artillery
-
--  Para la prueba FORK corremos _npm start_ y en otra terminal ejecutamos artillery.
--  Comando para prueba artillery:
-   artillery quick --count 50 -n 40 http://localhost:9000/api/productos/ > result_fork.txt
--  Prueba cluster Artillery ejecutamos _npm run cluster_ y en otra terminal ejecutamos artillery.
--  Comando para prueba artillery:
-   artillery quick --count 50 -n 40 http://localhost:9000/api/productos/ > result_cluster.txt
 
 ## Database
 
@@ -66,7 +58,14 @@ El proyecto está dividio en dos grupos de rutas desde http://localhost:PORT
 -  POST " /:idcarrito/productos " **Agrega un producto específico al carrito con un ID específico**
 -  DELETE " /:idcarrito/productos/:IDproducto " **Borra un producto específico(id) en el carrito con el ID selecicionado**
 
-> > > > Importante > PARA LA PRUEBA DE ENDPOINTS POST, PUT Y DELETE SE UTILIZO POSTMAN
+### "Extra" Artillery
+
+-  Para la prueba FORK corremos _npm start_ y en otra terminal ejecutamos artillery.
+-  Comando para prueba artillery:
+   artillery quick --count 50 -n 40 http://localhost:9000/api/productos/ > result_fork.txt
+-  Prueba cluster Artillery ejecutamos _npm run cluster_ y en otra terminal ejecutamos artillery.
+-  Comando para prueba artillery:
+   artillery quick --count 50 -n 40 http://localhost:9000/api/productos/ > result_cluster.txt
 
 ### Git Ignore
 
@@ -74,6 +73,7 @@ El proyecto está dividio en dos grupos de rutas desde http://localhost:PORT
 
 ### Dependencies
 
+-  React 18 [React](https://expressjs.com/es/ "Ver más")
 -  Para el servidor, manejo de rutas [Express JS](https://expressjs.com/es/ "Ver más")
 -  Para el timestamp y fechas [Moment JS](https://momentjs.com/ "Ver más")
 -  Para la asignación de IDs [uuid](https://www.npmjs.com/package/uuid "Ver más")
